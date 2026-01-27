@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Ayuda | Laranet</title>
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'lara-blue': '#1e3a8a',
+                        'lara-violet': '#7c3aed',
+                        'lara-green': '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Gradientes de texto */
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gradient-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .gradient-btn:hover::before {
+            left: 100%;
+        }
+        
+        .gradient-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px -10px rgba(124, 58, 237, 0.5);
+        }
+        
+        /* Animación de aparición */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Navbar glass effect */
+        .navbar-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        /* Líneas decorativas animadas */
+        .line-animated {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .line-animated::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1e3a8a, #7c3aed);
+            transition: width 0.4s ease;
+        }
+        
+        .line-animated:hover::after {
+            width: 100%;
+        }
+        
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Acordeón */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease;
+        }
+        
+        .accordion-content.open {
+            max-height: 1000px;
+        }
+        
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-btn.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        
+        /* Efecto hover en cards */
+        .help-card {
+            transition: all 0.3s ease;
+        }
+        
+        .help-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -15px rgba(124, 58, 237, 0.2);
+        }
+        
+        /* Iconos animados */
+        .icon-bounce {
+            animation: bounce-soft 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounce-soft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Partículas */
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: linear-gradient(135deg, #1e3a8a, #7c3aed);
+            border-radius: 50%;
+            animation: particle-float 8s ease-in-out infinite;
+            opacity: 0.3;
+        }
+        
+        @keyframes particle-float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-30px) translateX(20px); }
+            50% { transform: translateY(-10px) translateX(-20px); }
+            75% { transform: translateY(-40px) translateX(10px); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 overflow-x-hidden">
+    
+    <!-- Navbar Sticky -->
+    <nav class="navbar-glass fixed top-0 left-0 right-0 z-50 border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center space-x-2">
+                    <img src="assets/img/logo_laranet_horizontal.png" alt="Laranet" class="h-14 w-auto">
+                </a>
+                
+                <!-- Link Volver -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-slate-700 hover:text-violet-600 font-bold text-base transition-colors line-animated pb-1">
+                        <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        </svg>
+                        Volver al Inicio
+                    </a>
+                </div>
+                
+                <!-- Botones Derecha -->
+                <div class="flex items-center space-x-4">
+                    <a href="centro_de_ayuda.html" class="hidden sm:inline-flex items-center px-4 py-2 bg-violet-100 text-violet-700 rounded-xl font-medium">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        Centro de Ayuda
+                    </a>
+                    <a href="http://38.159.225.250:5594/PHANTOM/Includes/CRM/CRM_APP/login.php" target="_blank" class="gradient-btn inline-flex items-center px-5 py-2.5 text-white rounded-xl font-semibold shadow-lg">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        Autogestión
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-slate-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200">
+            <div class="px-4 py-4 space-y-3">
+                <a href="index.html" class="block py-2 text-violet-600 font-medium">
+                    <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 relative overflow-hidden">
+        <!-- Partículas decorativas -->
+        <div class="particle" style="top: 20%; left: 10%;"></div>
+        <div class="particle" style="top: 40%; left: 85%; animation-delay: 2s;"></div>
+        <div class="particle" style="top: 70%; left: 20%; animation-delay: 4s;"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in-up">
+                <a href="index.html" class="inline-flex items-center text-violet-600 hover:text-violet-700 font-medium mb-6 transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Volver al inicio
+                </a>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-800 mb-6">
+                    Centro de <span class="gradient-text">Ayuda</span>
+                </h1>
+                <p class="text-xl text-slate-600 max-w-2xl mx-auto">
+                    Encontrá respuestas a las preguntas más frecuentes sobre tu servicio de Internet y TV.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Access Cards -->
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto fade-in-up">
+                <!-- Autogestión -->
+                <a href="http://38.159.225.250:5594/PHANTOM/Includes/CRM/CRM_APP/login.php" target="_blank" class="help-card bg-gradient-to-br from-blue-50 to-white rounded-2xl p-6 border border-blue-100 flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 icon-bounce">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">Autogestión</h3>
+                        <p class="text-sm text-slate-500">Ver facturas y pagos</p>
+                    </div>
+                    <svg class="w-5 h-5 text-slate-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                
+                <!-- WhatsApp -->
+                <a href="https://wa.me/5491123948816" target="_blank" class="help-card bg-gradient-to-br from-green-50 to-white rounded-2xl p-6 border border-green-100 flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center flex-shrink-0 icon-bounce" style="animation-delay: 0.2s;">
+                        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800">WhatsApp</h3>
+                        <p class="text-sm text-slate-500">Chateá con nosotros</p>
+                    </div>
+                    <svg class="w-5 h-5 text-slate-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Preguntas Frecuentes - Acordeones -->
+    <section class="py-16 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in-up">
+                <span class="inline-block px-4 py-2 bg-violet-100 text-violet-800 rounded-full text-sm font-semibold mb-4">
+                    PREGUNTAS FRECUENTES
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-800">
+                    Todo lo que necesitás saber
+                </h2>
+            </div>
+            
+            <!-- PREGUNTAS ADMINISTRATIVAS -->
+            <div class="mb-12 fade-in-up">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Preguntas Administrativas</h3>
+                </div>
+                
+                <div class="space-y-4">
+                
+                <!-- Acordeón 1: Tu Primera Factura -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">¿Cómo llega mi primera factura?</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-4">
+                                Tu primera factura incluye el <strong>mes completo por adelantado</strong> + los <strong>días proporcionales</strong> desde la instalación hasta fin de mes.
+                            </p>
+                            <div class="bg-blue-50 rounded-xl p-4 mb-4">
+                                <p class="text-blue-800 text-sm">
+                                    <strong>Ejemplo:</strong> Si te instalaron el 15 de enero, en febrero recibirás:
+                                </p>
+                                <ul class="mt-2 text-blue-700 text-sm space-y-1">
+                                    <li>• El valor completo de febrero (mes adelantado)</li>
+                                    <li>• La parte proporcional de enero (del 15 al 31)</li>
+                                </ul>
+                            </div>
+                            <p class="text-slate-500 text-sm">
+                                Esto aplica <strong>solo a la primera factura</strong>. Las siguientes serán siempre por el valor mensual del plan.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acordeón 2: Portal de Autogestión -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">Portal de Autogestión</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-4">
+                                Tenés disponible nuestra plataforma de <strong>Autogestión Web</strong> donde podés:
+                            </p>
+                            <ul class="space-y-2 mb-4">
+                                <li class="flex items-center text-slate-600">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Ver tu balance de cuenta actualizado
+                                </li>
+                                <li class="flex items-center text-slate-600">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Consultar facturas pendientes de pago
+                                </li>
+                                <li class="flex items-center text-slate-600">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Descargar facturas anteriores
+                                </li>
+                                <li class="flex items-center text-slate-600">
+                                    <svg class="w-5 h-5 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    Revisar el historial de pagos
+                                </li>
+                            </ul>
+                            <div class="bg-violet-50 rounded-xl p-4">
+                                <p class="text-violet-800 text-sm font-medium mb-2">Datos de acceso:</p>
+                                <p class="text-violet-700 text-sm"><strong>Usuario:</strong> Se encuentra en tu factura</p>
+                                <p class="text-violet-700 text-sm"><strong>Contraseña:</strong> Tu DNI</p>
+                            </div>
+                            <a href="http://38.159.225.250:5594/PHANTOM/Includes/CRM/CRM_APP/login.php" target="_blank" class="mt-4 inline-flex items-center text-violet-600 hover:text-violet-700 font-medium">
+                                Ir al Portal de Autogestión
+                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acordeón 3: Dónde llega mi factura -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">¿Dónde llega mi factura?</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">Por Email</p>
+                                        <p class="text-slate-600 text-sm">Cada mes, en los primeros días del ciclo de facturación, te enviamos automáticamente tu factura al correo que registraste.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-8 h-8 bg-violet-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">Portal de Autogestión</p>
+                                        <p class="text-slate-600 text-sm">Podés ingresar en cualquier momento a la plataforma online para ver y descargar tus facturas.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">Por WhatsApp</p>
+                                        <p class="text-slate-600 text-sm">Podés solicitar tu factura directamente en el chat, desde el Menú Principal > Mi última factura.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acordeón 4: Medios de Pago -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">Medios de Pago disponibles</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+                                <p class="text-amber-800 text-sm">
+                                    <strong>Importante:</strong> Te recomendamos usar opciones de acreditación inmediata. La transferencia bancaria puede demorar y el servicio podría suspenderse si el pago entra después del vencimiento.
+                                </p>
+                            </div>
+                            
+                            <h4 class="font-semibold text-slate-800 mb-3">Opciones de pago inmediato:</h4>
+                            <div class="grid sm:grid-cols-2 gap-3 mb-4">
+                                <div class="flex items-center space-x-2 text-slate-600">
+                                    <span class="px-3 py-1 bg-sky-100 text-sky-700 rounded-full text-xs font-medium">Autogestión</span>
+                                    <span class="text-sm">Pago en Línea</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-slate-600">
+                                    <span class="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">Efectivo</span>
+                                    <span class="text-sm">Rapipago / Pago Fácil</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-slate-600">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium">Banco</span>
+                                    <span class="text-sm">Pago Mis Cuentas / Red Link</span>
+                                </div>
+                                <div class="flex items-center space-x-2 text-slate-600">
+                                    <span class="px-3 py-1 bg-violet-100 text-violet-700 rounded-full text-xs font-medium">Billetera</span>
+                                    <span class="text-sm">QR con Mercado Pago</span>
+                                </div>
+                            </div>
+                            
+                            <h4 class="font-semibold text-slate-800 mb-3">Transferencia Bancaria:</h4>
+                            <div class="bg-slate-50 rounded-xl p-4">
+                                <p class="text-slate-700 text-sm mb-2"><strong>Alias:</strong> LARANET</p>
+                                <p class="text-slate-700 text-sm mb-2"><strong>CBU:</strong> 2470001810000002193307</p>
+                                <p class="text-slate-500 text-xs">El importe debe ser exactamente igual al de la factura. Luego, enviá el comprobante con el botón "Informar pago".</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acordeón 5: Cómo pagar con QR -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">¿Cómo pagar con el QR de la factura?</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <ol class="space-y-3">
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-violet-100 rounded-full flex items-center justify-center text-violet-700 font-bold text-sm">1</span>
+                                    <p class="text-slate-600">Abrí tu billetera virtual preferida (Mercado Pago, Ualá, Naranja X, etc.)</p>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-violet-100 rounded-full flex items-center justify-center text-violet-700 font-bold text-sm">2</span>
+                                    <p class="text-slate-600">Elegí la opción "Pagar servicios" o "Escanear QR"</p>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-violet-100 rounded-full flex items-center justify-center text-violet-700 font-bold text-sm">3</span>
+                                    <p class="text-slate-600">Escaneá el código QR que está <strong>al centro de tu factura</strong>, debajo del código de barras</p>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-violet-100 rounded-full flex items-center justify-center text-violet-700 font-bold text-sm">4</span>
+                                    <p class="text-slate-600">Confirmá el importe y realizá el pago</p>
+                                </li>
+                            </ol>
+                            <div class="mt-4 bg-red-50 border border-red-200 rounded-xl p-4">
+                                <p class="text-red-700 text-sm">
+                                    <strong>Importante:</strong> No uses el QR de la izquierda, que corresponde a ARCA.
+                                </p>
+                            </div>
+                            <p class="mt-3 text-green-600 text-sm font-medium">La acreditación es inmediata.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acordeón 6: Pagar con Transferencia -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">Pagar con transferencia bancaria</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-4">Para que tu pago sea procesado automáticamente, seguí estas indicaciones:</p>
+                            
+                            <div class="space-y-3 mb-4">
+                                <div class="flex items-start space-x-3">
+                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <div>
+                                        <p class="font-medium text-slate-800">MONTO EXACTO</p>
+                                        <p class="text-slate-600 text-sm">Transferí el importe exacto de tu última factura</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <div>
+                                        <p class="font-medium text-slate-800">UNA FACTURA POR VEZ</p>
+                                        <p class="text-slate-600 text-sm">Si tenés varias facturas, pagá de a una, empezando por la más antigua</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <div>
+                                        <p class="font-medium text-slate-800">COMPROBANTE CLARO</p>
+                                        <p class="text-slate-600 text-sm">Enviá una foto nítida del comprobante donde se vea: Monto, Número de operación y Banco origen</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-indigo-50 rounded-xl p-4">
+                                <p class="text-indigo-800 font-medium mb-2">Datos para transferir:</p>
+                                <p class="text-indigo-700"><strong>Alias:</strong> LARANET</p>
+                                <p class="text-indigo-700"><strong>CBU:</strong> 2470001810000002193307</p>
+                            </div>
+                            
+                            <div class="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4">
+                                <p class="text-amber-800 text-sm">
+                                    <strong>Importante:</strong> El sistema procesa automáticamente si el monto coincide exactamente. Pagos parciales o montos diferentes tomarán más tiempo. Recordá informar la transferencia desde el botón "Informar transferencia" del menú principal.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <!-- PREGUNTAS DE SOPORTE Y SERVICIO -->
+            <div class="fade-in-up">
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Preguntas de Soporte y Servicio</h3>
+                </div>
+                
+                <div class="space-y-4">
+                
+                <!-- Acordeón: Cómo funciona la TV -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">¿Cómo funciona el servicio de TV?</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-4">
+                                Nuestro servicio de TV funciona mediante <strong>cable coaxial</strong>, una tecnología probada y confiable:
+                            </p>
+                            
+                            <div class="bg-violet-50 rounded-xl p-5 mb-4">
+                                <h4 class="font-semibold text-violet-800 mb-3">¿Cómo se conecta?</h4>
+                                <div class="flex items-center space-x-4 text-violet-700">
+                                    <div class="text-center">
+                                        <div class="w-12 h-12 bg-violet-200 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                            <svg class="w-6 h-6 text-violet-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/>
+                                            </svg>
+                                        </div>
+                                        <span class="text-xs font-medium">Módem</span>
+                                    </div>
+                                    <div class="flex-1 border-t-2 border-dashed border-violet-300"></div>
+                                    <div class="text-center">
+                                        <div class="w-12 h-12 bg-violet-200 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                            <span class="text-xs font-bold">COAX</span>
+                                        </div>
+                                        <span class="text-xs font-medium">Cable Coaxial</span>
+                                    </div>
+                                    <div class="flex-1 border-t-2 border-dashed border-violet-300"></div>
+                                    <div class="text-center">
+                                        <div class="w-12 h-12 bg-violet-200 rounded-lg flex items-center justify-center mx-auto mb-2">
+                                            <svg class="w-6 h-6 text-violet-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                            </svg>
+                                        </div>
+                                        <span class="text-xs font-medium">TV</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div class="flex items-start space-x-3">
+                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <p class="text-slate-600 text-sm">El cable coaxial sale del <strong>módem de fibra óptica</strong> y se conecta directamente al <strong>sintonizador de canales</strong> de tu TV.</p>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <p class="text-slate-600 text-sm"><strong>No necesitás decodificador</strong> adicional. Los canales se sintonizan directamente desde tu TV.</p>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <p class="text-slate-600 text-sm">Usá el control remoto de tu TV para cambiar de canal normalmente.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-4">
+                                <p class="text-blue-800 text-sm">
+                                    <strong>Tip:</strong> Para ver los canales, realizá una búsqueda automática de canales desde el menú de tu TV. Elegí la opción "Cable" o "TV por Cable".
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acordeón: WiFi 2.4 vs 5 GHz -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">Diferencias entre WiFi 2.4 GHz y 5 GHz</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                                <div class="bg-blue-50 rounded-xl p-4">
+                                    <div class="flex items-center space-x-2 mb-3">
+                                        <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm">2.4</span>
+                                        <span class="font-bold text-blue-800">2.4 GHz</span>
+                                    </div>
+                                    <ul class="space-y-2 text-sm">
+                                        <li class="text-blue-700">Mayor alcance</li>
+                                        <li class="text-blue-700">Menor velocidad</li>
+                                        <li class="text-blue-700">Más interferencias</li>
+                                    </ul>
+                                    <p class="mt-3 text-blue-600 text-sm font-medium">Ideal si estás lejos del módem</p>
+                                </div>
+                                <div class="bg-orange-50 rounded-xl p-4">
+                                    <div class="flex items-center space-x-2 mb-3">
+                                        <span class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">5</span>
+                                        <span class="font-bold text-orange-800">5 GHz</span>
+                                    </div>
+                                    <ul class="space-y-2 text-sm">
+                                        <li class="text-orange-700">Mayor velocidad</li>
+                                        <li class="text-orange-700">Menor alcance</li>
+                                        <li class="text-orange-700">Menos interferencias</li>
+                                    </ul>
+                                    <p class="mt-3 text-orange-600 text-sm font-medium">Ideal cerca del módem</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-violet-50 border border-violet-200 rounded-xl p-4">
+                                <p class="text-violet-800 text-sm">
+                                    <strong>Para velocidades de 100 Mbps o más:</strong> Tu dispositivo debe ser compatible con WiFi 5 (norma 802.11ac) y estar conectado a la red 5 GHz.
+                                </p>
+                            </div>
+                            
+                            <h4 class="font-semibold text-slate-800 mt-4 mb-2">Factores que afectan tu señal WiFi:</h4>
+                            <ul class="text-slate-600 text-sm space-y-1">
+                                <li>• Distancia al módem</li>
+                                <li>• Paredes u obstáculos</li>
+                                <li>• Interferencias (otros equipos o redes)</li>
+                                <li>• Muchos dispositivos conectados</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acordeón: Internet lento -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">¿Internet lento? Cómo solucionarlo</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-4">
+                                Una causa común de lentitud es la <strong>congestión en los canales WiFi</strong>. Reiniciar el módem suele resolverlo.
+                            </p>
+                            
+                            <h4 class="font-semibold text-slate-800 mb-3">Pasos para reiniciar:</h4>
+                            <ol class="space-y-3 mb-4">
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-red-100 rounded-full flex items-center justify-center text-red-700 font-bold text-sm">1</span>
+                                    <p class="text-slate-600">Desconectá el módem de la corriente</p>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-red-100 rounded-full flex items-center justify-center text-red-700 font-bold text-sm">2</span>
+                                    <p class="text-slate-600">Esperá <strong>30 segundos</strong></p>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-red-100 rounded-full flex items-center justify-center text-red-700 font-bold text-sm">3</span>
+                                    <p class="text-slate-600">Volvé a conectarlo</p>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-red-100 rounded-full flex items-center justify-center text-red-700 font-bold text-sm">4</span>
+                                    <p class="text-slate-600">Esperá <strong>1 minuto</strong> a que se configure</p>
+                                </li>
+                            </ol>
+                            
+                            <div class="bg-green-50 rounded-xl p-4 mb-4">
+                                <p class="text-green-800 text-sm">
+                                    <strong>¿Por qué funciona?</strong><br>
+                                    • El WiFi busca un canal menos saturado<br>
+                                    • Mejora la velocidad<br>
+                                    • Limpia la memoria del equipo y optimiza conexiones
+                                </p>
+                            </div>
+                            
+                            <p class="text-slate-500 text-sm">
+                                ¿Sigue lento? <a href="https://wa.me/5491123948816" target="_blank" class="text-violet-600 hover:text-violet-700 font-medium">Escribinos por WhatsApp</a> y te ayudamos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Acordeón: Problemas en un dispositivo -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">Problemas en un dispositivo en particular</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-4">Si el problema ocurre solo en un dispositivo, puede deberse a:</p>
+                            
+                            <h4 class="font-semibold text-slate-800 mb-2">Si estás conectado por WiFi:</h4>
+                            <ul class="space-y-2 mb-4 text-slate-600 text-sm">
+                                <li class="flex items-start space-x-2">
+                                    <span>•</span>
+                                    <span>El dispositivo no tiene buena señal porque está lejos del módem</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span>•</span>
+                                    <span>Está conectado a la red de 2.4GHz (no alcanza velocidades superiores a 30-50 Mbps)</span>
+                                </li>
+                            </ul>
+                            
+                            <h4 class="font-semibold text-slate-800 mb-2">Si estás conectado por cable:</h4>
+                            <p class="text-slate-600 text-sm mb-4">Verificá que el cable de red esté en buenas condiciones.</p>
+                            
+                            <div class="bg-amber-50 rounded-xl p-4">
+                                <p class="text-amber-800 text-sm">
+                                    <strong>Sugerencia:</strong> Reiniciá el dispositivo y conectate cerca del módem para tener mejor cobertura WiFi. Si el inconveniente solo ocurre con ese dispositivo y no con otros, el problema no está asociado al servicio de Internet.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-r from-blue-900 via-violet-800 to-violet-900 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden fade-in-up">
+                <!-- Elementos decorativos -->
+                <div class="absolute top-0 left-0 w-40 h-40 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                <div class="absolute bottom-0 right-0 w-60 h-60 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
+                
+                <div class="relative z-10">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+                        ¿No encontraste lo que buscabas?
+                    </h2>
+                    <p class="text-white/80 mb-8 max-w-xl mx-auto">
+                        Nuestro equipo está listo para ayudarte. Contactanos por WhatsApp o accedé a tu Sucursal Virtual.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="https://wa.me/5491123948816" target="_blank" class="inline-flex items-center justify-center px-8 py-4 bg-green-500 text-white rounded-2xl font-bold text-lg hover:bg-green-400 transition-all hover:scale-105 shadow-xl">
+                            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            Escribinos por WhatsApp
+                        </a>
+                        <a href="http://38.159.225.250:5594/PHANTOM/Includes/CRM/CRM_APP/login.php" target="_blank" class="inline-flex items-center justify-center px-8 py-4 bg-white text-violet-700 rounded-2xl font-bold text-lg hover:bg-slate-100 transition-all hover:scale-105 shadow-xl">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            Autogestión
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-5 gap-8 mb-12">
+                <!-- Logo y descripción -->
+                <div class="md:col-span-1">
+                    <img src="assets/img/logo_laranet_horizontal.png" alt="Laranet" class="h-12 w-auto mb-4 brightness-0 invert">
+                    <img src="assets/img/logo_cooperativa_lara.png" alt="Cooperativa Lara" class="h-20 w-auto mb-4 brightness-0 invert opacity-80">
+                    <p class="text-slate-400 text-sm mb-4">
+                        Internet y TV por Fibra Óptica en La Matanza.
+                    </p>
+                    <div class="flex space-x-3">
+                        <a href="https://www.instagram.com/laranetok/" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-violet-600 transition-colors">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.facebook.com/laranetok" target="_blank" class="w-9 h-9 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-violet-600 transition-colors">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Enlaces rápidos -->
+                <div>
+                    <h4 class="text-sm font-bold mb-4 text-white">Enlaces Rápidos</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html#planes" class="text-slate-400 hover:text-white transition-colors">Planes de Internet</a></li>
+                        <li><a href="index.html#tv" class="text-slate-400 hover:text-white transition-colors">TV + Fútbol</a></li>
+                        <li><a href="index.html#cobertura" class="text-slate-400 hover:text-white transition-colors">Cobertura</a></li>
+                        <li><a href="centro_de_ayuda.html" class="text-slate-400 hover:text-white transition-colors">Centro de Ayuda</a></li>
+                        <li><a href="http://38.159.225.250:5594/PHANTOM/Includes/CRM/CRM_APP/login.php" target="_blank" class="text-slate-400 hover:text-white transition-colors">Autogestión</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Asistencia -->
+                <div>
+                    <h4 class="text-sm font-bold mb-4 text-white">Asistencia</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://wa.me/5491123948816" target="_blank" class="text-slate-400 hover:text-white transition-colors">Soporte por WhatsApp</a></li>
+                        <li><a href="centro_de_ayuda.html" class="text-slate-400 hover:text-white transition-colors">Preguntas Frecuentes</a></li>
+                        <li><a href="http://38.159.225.250:5594/PHANTOM/Includes/CRM/CRM_APP/login.php" target="_blank" class="text-slate-400 hover:text-white transition-colors">Autogestión</a></li>
+                        <li><a href="mailto:soporte@laranet.com.ar" class="text-slate-400 hover:text-white transition-colors">soporte@laranet.com.ar</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Confianza en tus compras -->
+                <div>
+                    <h4 class="text-sm font-bold mb-4 text-white">Confianza en tus Compras</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://www.argentina.gob.ar/enacom" target="_blank" class="text-slate-400 hover:text-white transition-colors">ENACOM</a></li>
+                        <li><a href="https://www.argentina.gob.ar/servicio/iniciar-un-reclamo-ante-la-direccion-nacional-de-defensa-del-consumidor" target="_blank" class="text-slate-400 hover:text-white transition-colors">Defensa del Consumidor</a></li>
+                        <li><a href="https://autogestion.produccion.gob.ar/consumidores" target="_blank" class="text-slate-400 hover:text-white transition-colors">Ventanilla Única Federal</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contacto -->
+                <div>
+                    <h4 class="text-sm font-bold mb-4 text-white">Contacto</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center text-slate-400">
+                            <svg class="w-4 h-4 mr-2 text-violet-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                            </svg>
+                            <a href="https://wa.me/5491123948816" target="_blank" class="hover:text-white transition-colors">WhatsApp</a>
+                        </li>
+                        <li class="flex items-center text-slate-400">
+                            <svg class="w-4 h-4 mr-2 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            soporte@laranet.com.ar
+                        </li>
+                        <li class="flex items-start text-slate-400">
+                            <svg class="w-4 h-4 mr-2 text-violet-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            La Matanza, Buenos Aires
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-slate-500 text-sm">
+                        © 2026 Laranet - Cooperativa Lara. Todos los derechos reservados.
+                    </p>
+                    <div class="flex items-center space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-slate-500 hover:text-white text-sm transition-colors">Términos y Condiciones</a>
+                        <a href="#" class="text-slate-500 hover:text-white text-sm transition-colors">Política de Privacidad</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/5491123948816" target="_blank" class="fixed bottom-6 right-6 z-50 group">
+        <div class="relative">
+            <!-- Tooltip -->
+            <div class="absolute bottom-full right-0 mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <div class="bg-slate-800 text-white text-sm px-4 py-2 rounded-xl shadow-lg whitespace-nowrap">
+                    ¿Necesitás ayuda? Escribinos
+                    <div class="absolute -bottom-1 right-6 w-2 h-2 bg-slate-800 transform rotate-45"></div>
+                </div>
+            </div>
+            <!-- Botón -->
+            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center shadow-2xl hover:bg-green-400 transition-all hover:scale-110 animate-pulse hover:animate-none">
+                <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+            </div>
+        </div>
+    </a>
+
+    <!-- Script -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Intersection Observer para animaciones fade-in-up
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Navbar scroll effect
+        const navbar = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+            } else {
+                navbar.classList.remove('shadow-lg');
+            }
+        });
+        
+        // Acordeón
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const isOpen = content.classList.contains('open');
+            
+            // Cerrar todos los acordeones
+            document.querySelectorAll('.accordion-content').forEach(acc => {
+                acc.classList.remove('open');
+            });
+            document.querySelectorAll('.accordion-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Si estaba cerrado, abrir este
+            if (!isOpen) {
+                content.classList.add('open');
+                button.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
