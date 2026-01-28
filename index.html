@@ -311,7 +311,7 @@
             width: 100%;
             height: 100%;
             background-size: cover;
-            background-position: center;
+            background-position: 60% center;
             opacity: 0;
             transition: opacity 1.5s ease-in-out; /* Transición suave */
             filter: saturate(0.9) brightness(0.7); /* Oscurecer un poco para que se lea el texto */
@@ -331,9 +331,9 @@
             bottom: 0;
             /* Degradado de blanco (izquierda) a transparente (derecha) */
             background: linear-gradient(90deg, 
-                rgba(248, 250, 252, 0.95) 0%, 
-                rgba(248, 250, 252, 0.85) 40%, 
-                rgba(248, 250, 252, 0.4) 100%);
+                rgba(248, 250, 252, 0.85) 0%, 
+                rgba(248, 250, 252, 0.75) 40%, 
+                rgba(248, 250, 252, 0.3) 100%);
             z-index: 1; /* Sobre la imagen, bajo el contenido */
         }
 
@@ -354,22 +354,70 @@
             z-index: 2;
         }
         
-        /* TV promo section background */
+        /* --- SECCIÓN TV + FÚTBOL (MODERNA) --- */
+        
         .tv-section-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
             position: relative;
+            /* Imagen de fondo del estadio */
+            background-image: url('assets/img/futbol1.jpg');
+            background-size: cover;
+            background-position: center;
+            /* EFECTO PARALLAX: La imagen se queda quieta mientras scrolleas */
+            background-attachment: fixed; 
             overflow: hidden;
         }
         
+        /* Overlay Degradado (Para que el texto resalte sobre el estadio) */
         .tv-section-bg::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate-bg 20s linear infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Gradiente marca: Azul Laranet profundo a Violeta transparente */
+            background: linear-gradient(135deg, 
+                rgba(30, 58, 138, 0.95) 0%,   /* Azul sólido arriba */
+                rgba(30, 58, 138, 0.80) 40%,  /* Azul semi-transparente al medio */
+                rgba(124, 58, 237, 0.50) 100% /* Violeta transparente abajo */
+            );
+            z-index: 1;
+        }
+        
+        /* Viñeta oscura (Sombra en los bordes para centrar la atención) */
+        .tv-section-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.4) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Ajuste específico para las tarjetas de vidrio en esta sección */
+        /* Esto hace que se vean más transparentes sobre el estadio */
+        .tv-section-bg .glass-card {
+            background: rgba(255, 255, 255, 0.1) !important; /* Cristal oscuro/transparente */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px); /* Más borroso el fondo */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Animación de hover para las tarjetas del pack fútbol */
+        .tv-section-bg .glass-card:hover {
+            background: rgba(255, 255, 255, 0.15) !important;
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* Asegurar que el contenido (texto y tarjetas) quede encima de los efectos */
+        .tv-section-bg > div {
+            position: relative;
+            z-index: 10;
         }
         
 
@@ -465,6 +513,8 @@
         <div class="hero-slides">
             <div class="hero-slide active" style="background-image: url('assets/img/familia_viendo_tv.jpg');"></div>
             <div class="hero-slide" style="background-image: url('assets/img/hombre_con_celular.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('assets/img/familia_internet1.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('assets/img/familia_internet2.png');"></div>
         </div>
 
         <div class="hero-overlay"></div>
@@ -1166,7 +1216,7 @@
         const slides = document.querySelectorAll('.hero-slide');
         let currentSlide = 0;
         // Intervalo de cambio: 5000 milisegundos = 5 segundos
-        const slideInterval = 3500; 
+        const slideInterval = 4000; 
 
         function nextSlide() {
             // Quitamos la clase 'active' de la actual
