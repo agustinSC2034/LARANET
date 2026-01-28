@@ -451,16 +451,42 @@
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
     </style>
+    <style>
+    /* Reglas específicas para mobile: ajustar proporciones y tamaños */
+    @media (max-width: 640px) {
+        .hero-bg-slider { min-height: 60vh; }
+        .hero-content-wrapper { padding-left: 1rem; padding-right: 1rem; }
+        .plan-card { padding: 1rem !important; border-radius: 1rem; }
+        .bento-item { padding: 0.75rem !important; }
+        .gradient-btn, .gradient-btn.inline-flex { padding: 0.5rem 0.9rem !important; font-size: 0.95rem !important; }
+        .max-w-7xl { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .fade-in-up { transform: translateY(20px); }
+        .text-4xl { font-size: 1.6rem !important; }
+        .text-5xl { font-size: 1.9rem !important; }
+        body { font-size: 15px; }
+        /* Reducir tamaño del botón flotante de WhatsApp */
+        a[href^="https://wa.me/"] { width: 48px !important; height: 48px !important; }
+        a[href^="https://wa.me/"] svg { width: 20px !important; height: 20px !important; }
+        /* Hero particles y speed-lines menos intrusivos */
+        .particle, .speed-line { display: none; }
+        /* Mobile logo already smaller; asegurar que el menú no ocupe tanto */
+        #mobile-menu { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        #mobile-menu a { padding-top: 0.6rem; padding-bottom: 0.6rem; }
+    }
+    </style>
 </head>
 <body class="bg-slate-100 overflow-x-hidden">
     
     <!-- Navbar Sticky -->
     <nav class="navbar-glass fixed top-0 left-0 right-0 z-50 border-b border-slate-200/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
+            <div class="flex items-center justify-between h-16 md:h-20">
                 <!-- Logo -->
                 <a href="#" class="flex items-center space-x-2">
-                    <img src="assets/img/logo_laranet_horizontal.png" alt="Laranet" class="h-14 w-auto">
+                    <!-- Desktop / tablet -->
+                    <img src="assets/img/logo_laranet_horizontal.png" alt="Laranet" class="hidden md:block h-14 w-auto">
+                    <!-- Mobile icon (requested) -->
+                    <img src="assets/img/lara.png" alt="Laranet" class="md:hidden h-10 w-auto">
                 </a>
                 
                 <!-- Links Centro -->
