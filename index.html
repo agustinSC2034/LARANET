@@ -285,50 +285,72 @@
             box-shadow: 0 0 30px rgba(30, 58, 138, 0.4);
         }
         
-        /* Hero section with background image */
-        .hero-bg-image {
+        /* --- HERO SLIDER & BACKGROUND CORREGIDO --- */
+        
+        .hero-bg-slider {
             position: relative;
             overflow: hidden;
+            /* Eliminamos el background fijo de aquí */
         }
-        
-        .hero-bg-image::before {
-            content: '';
+
+        /* Contenedor de las imágenes */
+        .hero-slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Al fondo de todo */
+        }
+
+        /* Cada imagen individual */
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out; /* Transición suave */
+            filter: saturate(0.9) brightness(0.7); /* Oscurecer un poco para que se lea el texto */
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        /* Capa de degradado (Overlay) */
+        /* IMPORTANTE: Usamos una clase específica, NO > * para evitar el error de los cuadrados */
+        .hero-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('assets/img/familia_viendo_tv.jpg') center center / cover no-repeat;
-            filter: saturate(0.85) brightness(0.6);
-            z-index: 0;
+            /* Degradado de blanco (izquierda) a transparente (derecha) */
+            background: linear-gradient(90deg, 
+                rgba(248, 250, 252, 0.95) 0%, 
+                rgba(248, 250, 252, 0.85) 40%, 
+                rgba(248, 250, 252, 0.4) 100%);
+            z-index: 1; /* Sobre la imagen, bajo el contenido */
         }
-        
-        .hero-bg-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, rgba(248, 250, 252, 0.92) 0%, rgba(248, 250, 252, 0.85) 35%, rgba(248, 250, 252, 0.5) 60%, rgba(248, 250, 252, 0.3) 100%);
-            z-index: 1;
-        }
-        
-        .hero-bg-image > * {
+
+        /* Wrapper para el contenido (texto y botones) */
+        .hero-content-wrapper {
             position: relative;
-            z-index: 2;
-        
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(241, 245, 249, 0.6) 0%, rgba(248, 250, 252, 0.5) 50%, rgba(239, 246, 255, 0.55) 100%);
-            z-index: 1;
+            z-index: 10; /* Muy por encima de todo */
         }
         
-        .hero-bg-image > * {
-            position: relative;
+        /* Ajuste de las líneas de velocidad */
+        .speed-line {
+            z-index: 2; /* Sobre el overlay, bajo el texto */
+            pointer-events: none;
+        }
+        
+        /* Ajuste de partículas */
+        .particle {
             z-index: 2;
         }
         
@@ -438,25 +460,29 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="min-h-[80vh] lg:min-h-screen pt-20 flex items-center hero-bg-image">
-        <!-- Partículas decorativas - ocultas en mobile -->
+    <section class="min-h-[80vh] lg:min-h-screen pt-20 flex items-center hero-bg-slider">
+        
+        <div class="hero-slides">
+            <div class="hero-slide active" style="background-image: url('assets/img/familia_viendo_tv.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('assets/img/hombre_con_celular.jpg');"></div>
+        </div>
+
+        <div class="hero-overlay"></div>
+
         <div class="particle hidden lg:block" style="top: 20%; left: 10%;"></div>
         <div class="particle hidden lg:block" style="top: 40%; left: 85%; animation-delay: 2s;"></div>
         <div class="particle hidden lg:block" style="top: 70%; left: 20%; animation-delay: 4s;"></div>
         <div class="particle hidden lg:block" style="top: 30%; left: 70%; animation-delay: 1s;"></div>
         <div class="particle hidden lg:block" style="top: 80%; left: 60%; animation-delay: 3s;"></div>
         
-        <!-- Speed lines - ocultas en mobile -->
         <div class="speed-line hidden lg:block" style="top: 30%; width: 200px; animation-delay: 0s;"></div>
         <div class="speed-line hidden lg:block" style="top: 50%; width: 150px; animation-delay: 1s;"></div>
         <div class="speed-line hidden lg:block" style="top: 70%; width: 180px; animation-delay: 2s;"></div>
         
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full hero-content-wrapper">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <!-- Contenido izquierda -->
                 <div class="fade-in-up">
-                    <div class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6">
+                    <div class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-medium mb-6 backdrop-blur-sm bg-opacity-90">
                         <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                         Fibra Óptica 100% Real
                     </div>
@@ -467,7 +493,7 @@
                         <span class="text-slate-800">Necesita</span>
                     </h1>
                     
-                    <p class="text-xl text-slate-600 mb-8 max-w-lg">
+                    <p class="text-xl text-slate-600 mb-8 max-w-lg font-medium">
                         Internet Simétrico por Fibra Óptica + TV HD. <br>
                         <span class="font-semibold text-blue-600">Instalación 100% Bonificada.</span>
                     </p>
@@ -479,7 +505,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                             </svg>
                         </a>
-                        <a href="#tv" class="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-slate-200 text-slate-700 rounded-2xl font-bold text-lg hover:border-blue-400 hover:text-blue-600 transition-all hover:scale-105 shadow-lg">
+                        <a href="#tv" class="inline-flex items-center justify-center px-8 py-4 bg-white/80 backdrop-blur border-2 border-slate-200 text-slate-700 rounded-2xl font-bold text-lg hover:border-blue-400 hover:text-blue-600 transition-all hover:scale-105 shadow-lg">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
@@ -487,8 +513,7 @@
                         </a>
                     </div>
                     
-                    <!-- Trust badges -->
-                    <div class="mt-10 flex items-center space-x-6 text-slate-500">
+                    <div class="mt-10 flex items-center space-x-6 text-slate-600 font-medium">
                         <div class="flex items-center">
                             <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -504,7 +529,6 @@
                     </div>
                 </div>
                 
-                <!-- Animación módem derecha - oculta en mobile -->
                 <div class="hidden lg:flex justify-center lg:justify-end fade-in-up" style="animation-delay: 0.3s;">
                     <div class="modem-container">
                         <div class="wave"></div>
@@ -518,8 +542,7 @@
             </div>
         </div>
         
-        <!-- Scroll indicator - oculto en mobile -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden lg:block">
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden lg:block z-20">
             <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
             </svg>
@@ -1139,6 +1162,25 @@
                 closeGrillaModal();
             }
         });
+        // --- Slider del Hero ---
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
+        // Intervalo de cambio: 5000 milisegundos = 5 segundos
+        const slideInterval = 3500; 
+
+        function nextSlide() {
+            // Quitamos la clase 'active' de la actual
+            slides[currentSlide].classList.remove('active');
+            // Calculamos la siguiente (vuelve a 0 si llega al final)
+            currentSlide = (currentSlide + 1) % slides.length;
+            // Ponemos la clase 'active' a la nueva
+            slides[currentSlide].classList.add('active');
+        }
+
+        // Iniciamos el slider solo si existen slides
+        if (slides.length > 0) {
+            setInterval(nextSlide, slideInterval);
+        }
     </script>
 </body>
 </html>
