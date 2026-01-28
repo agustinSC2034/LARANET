@@ -285,6 +285,40 @@
             box-shadow: 0 0 30px rgba(30, 58, 138, 0.4);
         }
         
+        /* Hero section with background image */
+        .hero-bg-image {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('assets/img/familia_tv.jpg') center center / cover no-repeat;
+            filter: saturate(0.85) brightness(0.55);
+            z-index: 0;
+        }
+        
+        .hero-bg-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(241, 245, 249, 0.6) 0%, rgba(248, 250, 252, 0.5) 50%, rgba(239, 246, 255, 0.55) 100%);
+            z-index: 1;
+        }
+        
+        .hero-bg-image > * {
+            position: relative;
+            z-index: 2;
+        }
+        
         /* TV promo section background */
         .tv-section-bg {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
@@ -302,6 +336,8 @@
             background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
             animation: rotate-bg 20s linear infinite;
         }
+        
+
         
         @keyframes rotate-bg {
             0% { transform: rotate(0deg); }
@@ -390,7 +426,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="min-h-[80vh] lg:min-h-screen pt-20 flex items-center relative overflow-hidden bg-gradient-to-br from-slate-100 via-slate-50 to-blue-50/30">
+    <section class="min-h-[80vh] lg:min-h-screen pt-20 flex items-center hero-bg-image">
         <!-- Partículas decorativas - ocultas en mobile -->
         <div class="particle hidden lg:block" style="top: 20%; left: 10%;"></div>
         <div class="particle hidden lg:block" style="top: 40%; left: 85%; animation-delay: 2s;"></div>
