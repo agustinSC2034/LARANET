@@ -298,13 +298,26 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('assets/img/familia_tv.jpg') center center / cover no-repeat;
-            filter: saturate(0.85) brightness(0.55);
+            background: url('assets/img/familia_viendo_tv.jpg') center center / cover no-repeat;
+            filter: saturate(0.85) brightness(0.6);
             z-index: 0;
         }
         
         .hero-bg-image::after {
             content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(248, 250, 252, 0.92) 0%, rgba(248, 250, 252, 0.85) 35%, rgba(248, 250, 252, 0.5) 60%, rgba(248, 250, 252, 0.3) 100%);
+            z-index: 1;
+        }
+        
+        .hero-bg-image > * {
+            position: relative;
+            z-index: 2;
+        
             position: absolute;
             top: 0;
             left: 0;
