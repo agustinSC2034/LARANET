@@ -635,7 +635,7 @@
             </div>
             
             
-            <div class="fade-in-up">
+            <div class="fade-in-up mt-12">
                 <div class="flex items-center space-x-3 mb-6">
                     <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
                         <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -648,7 +648,275 @@
                 
                 <div class="space-y-4">
                 
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">¿Dónde instalamos el módem WiFi?</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <h4 class="font-semibold text-slate-800 mb-2">Ubicación Estratégica del Módem</h4>
+                            <p class="text-slate-600 mb-4">
+                                Nuestros técnicos validan, al momento de realizar la instalación, la <strong>"zona de uso intensivo"</strong> dentro del hogar. Esta es el área principal donde se reúne la familia o donde más se utiliza Internet (por ejemplo, el living o el estudio).
+                            </p>
+                            <div class="bg-sky-50 border border-sky-200 rounded-xl p-4">
+                                <p class="text-sky-800 text-sm">
+                                    En dicha zona es donde realizamos la instalación del módem WiFi para asegurar que ahí puedan disfrutar de la <strong>máxima velocidad y estabilidad</strong> del servicio.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">¿Es posible mover el módem de lugar?</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-4">
+                                <strong>No recomendamos moverlo</strong> por tu cuenta. El equipo está ubicado en un lugar estratégico y el cable de Fibra Óptica que lo conecta a la roseta de la pared es extremadamente delicado.
+                            </p>
+                            
+                            <h4 class="font-semibold text-slate-800 mb-2">Recordá que:</h4>
+                            <ul class="space-y-2 mb-4 text-slate-600 text-sm">
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-amber-500 mt-1">•</span>
+                                    <span><strong>No dobles o enrolles el cableado:</strong> Dicho cable es fibra óptica de vidrio, es sumamente delicado y puede partirse por dentro, cortando el servicio.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-amber-500 mt-1">•</span>
+                                    <span><strong>No manipules el dispositivo:</strong> Cualquier tirón fuerte puede dañar el conector láser.</span>
+                                </li>
+                            </ul>
+                            
+                            <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-4">
+                                <p class="text-red-800 text-sm">
+                                    <strong>Importante:</strong> Los daños en el módem y/o cableado interno por uso indebido o descuido suelen tener un costo asociado de reparación.
+                                </p>
+                            </div>
+                            <p class="text-slate-600 text-sm">
+                                Si necesitás moverlo sí o sí (ej. por una remodelación), <a href="https://wa.me/5491123948816" target="_blank" class="text-blue-600 font-bold hover:underline">contactate con nuestro equipo</a> para solicitar una <strong>mudanza interna</strong> oficial.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">No alcanzo la velocidad contratada, ¿Qué hago?</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-4">Para entender el motivo, es importante analizar cómo estás conectado:</p>
+                            
+                            <h4 class="font-semibold text-indigo-800 mb-2">1. Si estás conectado por WiFi:</h4>
+                            <ul class="space-y-2 mb-4 text-slate-600 text-sm">
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-indigo-500 mt-1">•</span>
+                                    <span><strong>Compatibilidad:</strong> Verificá que tu celular o PC soporte la norma <strong>WiFi 5 (ac)</strong> o superior. Equipos con normas anteriores (WiFi 4/n) no superan los 50-70 Mbps.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-indigo-500 mt-1">•</span>
+                                    <span><strong>Red 5 GHz:</strong> Asegurate de estar conectado a la red que dice "5G" o "5GHz". La red normal de 2.4 GHz tiene mayor alcance pero su velocidad máxima es mucho menor.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-indigo-500 mt-1">•</span>
+                                    <span><strong>Distancia:</strong> Si hay paredes, espejos o estás muy lejos del módem, la velocidad cae drásticamente. Acercate al módem (a menos de 2 metros) y volvé a probar.</span>
+                                </li>
+                            </ul>
+
+                            <h4 class="font-semibold text-indigo-800 mb-2">2. Si estás conectado por Cable de Red (PC/Consola):</h4>
+                            <ul class="space-y-2 mb-4 text-slate-600 text-sm">
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-indigo-500 mt-1">•</span>
+                                    <span><strong>Tarjeta de Red:</strong> Revisá si tu equipo tiene puerto <em>Gigabit Ethernet</em> (soporta hasta 1000 Mbps). Si tu placa es <em>Fast Ethernet</em>, nunca superará los 100 Mbps, por más que tengas el plan de 500 Megas.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-indigo-500 mt-1">•</span>
+                                    <span><strong>Routers propios:</strong> Si pusiste un router tuyo entre nuestro módem y tu PC, verificá que sus puertos también sean Gigabit.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <span class="text-indigo-500 mt-1">•</span>
+                                    <span><strong>El cable:</strong> Asegurate de usar cables de red Categoría 5e (CAT5e) o Categoría 6 (CAT6).</span>
+                                </li>
+                            </ul>
+
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
+                                <p class="text-indigo-900 font-bold text-sm mb-2">¿Cómo hacer una prueba confiable?</p>
+                                <p class="text-indigo-800 text-xs">
+                                    1. Desconectá otros equipos (TVs, celulares extra).<br>
+                                    2. Conectate preferentemente por <strong>cable directo al módem</strong> (o por WiFi 5G a 1 metro de distancia).<br>
+                                    3. Ingresá a <strong>http://10.85.0.10/speedtest/</strong> y dale a INICIO.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">Zonas sin cobertura WiFi en mi casa</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-3">El módem central irradia señal en forma circular, pero existen factores físicos que detienen las ondas WiFi:</p>
+                            <ul class="text-slate-600 text-sm space-y-1 mb-4 ml-2">
+                                <li>• <strong>Distancia:</strong> A mayor distancia, menor señal.</li>
+                                <li>• <strong>Obstáculos físicos:</strong> Paredes gruesas, losas, espejos grandes, placares y electrodomésticos (microondas, heladeras) bloquean la señal.</li>
+                                <li>• <strong>Interferencias:</strong> Redes WiFi de vecinos o teléfonos inalámbricos saturan el ambiente.</li>
+                            </ul>
+                            <div class="bg-slate-50 rounded-xl p-4">
+                                <p class="text-slate-800 text-sm">
+                                    <strong>Solución:</strong> Si notás que en una habitación lejana no llega el WiFi, probá primero reiniciando el módem (apagando del botón trasero 30 seg). Si el problema es por distancia o paredes estructurales, la mejor solución es adquirir un <strong>Extensor de Rango (Repetidor)</strong> o un sistema <strong>WiFi Mesh</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">Diferencias entre WiFi 2.4 GHz y 5 GHz</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <div class="grid sm:grid-cols-2 gap-4 mb-4">
+                                <div class="bg-blue-50 rounded-xl p-4">
+                                    <div class="flex items-center space-x-2 mb-3">
+                                        <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm">2.4</span>
+                                        <span class="font-bold text-blue-800">Red 2.4 GHz</span>
+                                    </div>
+                                    <ul class="space-y-2 text-sm text-blue-800">
+                                        <li>✅ <strong>Mayor alcance</strong> (atraviesa mejor paredes)</li>
+                                        <li>🚫 <strong>Menor velocidad máxima</strong></li>
+                                        <li>⚠️ <strong>Más interferencias</strong> (bluetooth, microondas)</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-orange-50 rounded-xl p-4">
+                                    <div class="flex items-center space-x-2 mb-3">
+                                        <span class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">5</span>
+                                        <span class="font-bold text-orange-800">Red 5 GHz</span>
+                                    </div>
+                                    <ul class="space-y-2 text-sm text-orange-800">
+                                        <li>✅ <strong>Máxima velocidad</strong> (fibra pura)</li>
+                                        <li>✅ <strong>Menos interferencias</strong></li>
+                                        <li>🚫 <strong>Menor alcance</strong> (ideal mismo ambiente)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-violet-50 border border-violet-200 rounded-xl p-4">
+                                <p class="text-violet-800 text-sm">
+                                    <strong>¿Cuál uso?</strong> Si necesitás más cobertura (estás en el patio o dormitorio alejado), usá 2.4 GHz. Si buscás velocidad para descargar o ver Netflix y estás cerca del módem, elegí siempre la 5 GHz.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                            </div>
+                            <span class="text-lg font-semibold text-slate-800">¿Internet lento? Cómo solucionarlo</span>
+                        </div>
+                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <div class="pb-6 pt-2 border-t border-slate-100">
+                            <p class="text-slate-600 mb-4">
+                                La causa principal de la lentitud ocasional suele ser la <strong>congestión en los canales WiFi</strong> (tus vecinos usando WiFi interfieren con el tuyo). La solución más rápida y efectiva es <strong>reiniciar tu equipo</strong>.
+                            </p>
+                            
+                            <h4 class="font-semibold text-slate-800 mb-3">Pasos para reiniciar correctamente:</h4>
+                            <ol class="space-y-3 mb-4">
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 font-bold text-sm">1</span>
+                                    <p class="text-slate-600">Apagá el módem desde el botón trasero o desconectalo de la corriente.</p>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 font-bold text-sm">2</span>
+                                    <p class="text-slate-600">Esperá <strong>30 segundos</strong> reales.</p>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 font-bold text-sm">3</span>
+                                    <p class="text-slate-600">Volvé a encenderlo / conectarlo.</p>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="flex-shrink-0 w-7 h-7 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 font-bold text-sm">4</span>
+                                    <p class="text-slate-600">Esperá <strong>2 minutos</strong> a que todas las luces se estabilicen.</p>
+                                </li>
+                            </ol>
+                            
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-4">
+                                <p class="text-slate-800 text-sm">
+                                    <strong>¿Por qué funciona?</strong> Al reiniciar, el módem hace un escaneo del ambiente y busca automáticamente un <strong>canal WiFi menos congestionado</strong>, además de limpiar su memoria temporal.
+                                </p>
+                            </div>
+                            
+                            <p class="text-slate-500 text-sm">
+                                ¿Sigue lento después del reinicio? <a href="https://wa.me/5491123948816?text=Hola,%20reinicié%20mi%20módem%20y%20sigo%20con%20lentitud" target="_blank" class="text-emerald-600 hover:text-emerald-700 font-bold underline">Escribinos por WhatsApp</a> para que nuestros técnicos revisen la línea.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                     <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
                         <div class="flex items-center space-x-4">
@@ -701,195 +969,22 @@
                             
                             <div class="space-y-3">
                                 <div class="flex items-start space-x-3">
-                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="w-5 h-5 text-violet-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                     </svg>
                                     <p class="text-slate-600 text-sm">El cable coaxial sale del <strong>módem de fibra óptica</strong> y se conecta directamente al <strong>sintonizador de canales</strong> de tu TV.</p>
                                 </div>
                                 <div class="flex items-start space-x-3">
-                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg class="w-5 h-5 text-violet-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                                     </svg>
                                     <p class="text-slate-600 text-sm"><strong>No necesitás decodificador</strong> adicional. Los canales se sintonizan directamente desde tu TV.</p>
                                 </div>
-                                <div class="flex items-start space-x-3">
-                                    <svg class="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <p class="text-slate-600 text-sm">Usá el control remoto de tu TV para cambiar de canal normalmente.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-4">
-                                <p class="text-blue-800 text-sm">
-                                    <strong>Tip:</strong> Para ver los canales, realizá una búsqueda automática de canales desde el menú de tu TV. Elegí la opción "Cable" o "TV por Cable".
-                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
-                                </svg>
-                            </div>
-                            <span class="text-lg font-semibold text-slate-800">Diferencias entre WiFi 2.4 GHz y 5 GHz</span>
-                        </div>
-                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                    <div class="accordion-content px-6">
-                        <div class="pb-6 pt-2 border-t border-slate-100">
-                            <div class="grid sm:grid-cols-2 gap-4 mb-4">
-                                <div class="bg-blue-50 rounded-xl p-4">
-                                    <div class="flex items-center space-x-2 mb-3">
-                                        <span class="w-8 h-8 bg-blue-500 text-white rounded-full flex items-center justify-center font-bold text-sm">2.4</span>
-                                        <span class="font-bold text-blue-800">2.4 GHz</span>
-                                    </div>
-                                    <ul class="space-y-2 text-sm">
-                                        <li class="text-blue-700">Mayor alcance</li>
-                                        <li class="text-blue-700">Menor velocidad</li>
-                                        <li class="text-blue-700">Más interferencias</li>
-                                    </ul>
-                                    <p class="mt-3 text-blue-600 text-sm font-medium">Ideal si estás lejos del módem</p>
-                                </div>
-                                <div class="bg-orange-50 rounded-xl p-4">
-                                    <div class="flex items-center space-x-2 mb-3">
-                                        <span class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold text-sm">5</span>
-                                        <span class="font-bold text-orange-800">5 GHz</span>
-                                    </div>
-                                    <ul class="space-y-2 text-sm">
-                                        <li class="text-orange-700">Mayor velocidad</li>
-                                        <li class="text-orange-700">Menor alcance</li>
-                                        <li class="text-orange-700">Menos interferencias</li>
-                                    </ul>
-                                    <p class="mt-3 text-orange-600 text-sm font-medium">Ideal cerca del módem</p>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-violet-50 border border-violet-200 rounded-xl p-4">
-                                <p class="text-violet-800 text-sm">
-                                    <strong>Para velocidades de 100 Mbps o más:</strong> Tu dispositivo debe ser compatible con WiFi 5 (norma 802.11ac) y estar conectado a la red 5 GHz.
-                                </p>
-                            </div>
-                            
-                            <h4 class="font-semibold text-slate-800 mt-4 mb-2">Factores que afectan tu señal WiFi:</h4>
-                            <ul class="text-slate-600 text-sm space-y-1">
-                                <li>• Distancia al módem</li>
-                                <li>• Paredes u obstáculos</li>
-                                <li>• Interferencias (otros equipos o redes)</li>
-                                <li>• Muchos dispositivos conectados</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                            <span class="text-lg font-semibold text-slate-800">¿Internet lento? Cómo solucionarlo</span>
-                        </div>
-                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                    <div class="accordion-content px-6">
-                        <div class="pb-6 pt-2 border-t border-slate-100">
-                            <p class="text-slate-600 mb-4">
-                                Una causa común de lentitud es la <strong>congestión en los canales WiFi</strong>. Reiniciar el módem suele resolverlo.
-                            </p>
-                            
-                            <h4 class="font-semibold text-slate-800 mb-3">Pasos para reiniciar:</h4>
-                            <ol class="space-y-3 mb-4">
-                                <li class="flex items-start space-x-3">
-                                    <span class="flex-shrink-0 w-7 h-7 bg-red-100 rounded-full flex items-center justify-center text-red-700 font-bold text-sm">1</span>
-                                    <p class="text-slate-600">Desconectá el módem de la corriente</p>
-                                </li>
-                                <li class="flex items-start space-x-3">
-                                    <span class="flex-shrink-0 w-7 h-7 bg-red-100 rounded-full flex items-center justify-center text-red-700 font-bold text-sm">2</span>
-                                    <p class="text-slate-600">Esperá <strong>30 segundos</strong></p>
-                                </li>
-                                <li class="flex items-start space-x-3">
-                                    <span class="flex-shrink-0 w-7 h-7 bg-red-100 rounded-full flex items-center justify-center text-red-700 font-bold text-sm">3</span>
-                                    <p class="text-slate-600">Volvé a conectarlo</p>
-                                </li>
-                                <li class="flex items-start space-x-3">
-                                    <span class="flex-shrink-0 w-7 h-7 bg-red-100 rounded-full flex items-center justify-center text-red-700 font-bold text-sm">4</span>
-                                    <p class="text-slate-600">Esperá <strong>1 minuto</strong> a que se configure</p>
-                                </li>
-                            </ol>
-                            
-                            <div class="bg-green-50 rounded-xl p-4 mb-4">
-                                <p class="text-green-800 text-sm">
-                                    <strong>¿Por qué funciona?</strong><br>
-                                    • El WiFi busca un canal menos saturado<br>
-                                    • Mejora la velocidad<br>
-                                    • Limpia la memoria del equipo y optimiza conexiones
-                                </p>
-                            </div>
-                            
-                            <p class="text-slate-500 text-sm">
-                                ¿Sigue lento? <a href="https://wa.me/5491123948816?text=Hola" target="_blank" class="text-violet-600 hover:text-violet-700 font-medium">Escribinos por WhatsApp</a> y te ayudamos.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    <button class="accordion-btn w-full px-6 py-5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors" onclick="toggleAccordion(this)">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                            <span class="text-lg font-semibold text-slate-800">Problemas en un dispositivo en particular</span>
-                        </div>
-                        <svg class="accordion-icon w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                    <div class="accordion-content px-6">
-                        <div class="pb-6 pt-2 border-t border-slate-100">
-                            <p class="text-slate-600 mb-4">Si el problema ocurre solo en un dispositivo, puede deberse a:</p>
-                            
-                            <h4 class="font-semibold text-slate-800 mb-2">Si estás conectado por WiFi:</h4>
-                            <ul class="space-y-2 mb-4 text-slate-600 text-sm">
-                                <li class="flex items-start space-x-2">
-                                    <span>•</span>
-                                    <span>El dispositivo no tiene buena señal porque está lejos del módem</span>
-                                </li>
-                                <li class="flex items-start space-x-2">
-                                    <span>•</span>
-                                    <span>Está conectado a la red de 2.4GHz (no alcanza velocidades superiores a 30-50 Mbps)</span>
-                                </li>
-                            </ul>
-                            
-                            <h4 class="font-semibold text-slate-800 mb-2">Si estás conectado por cable:</h4>
-                            <p class="text-slate-600 text-sm mb-4">Verificá que el cable de red esté en buenas condiciones.</p>
-                            
-                            <div class="bg-amber-50 rounded-xl p-4">
-                                <p class="text-amber-800 text-sm">
-                                    <strong>Sugerencia:</strong> Reiniciá el dispositivo y conectate cerca del módem para tener mejor cobertura WiFi. Si el inconveniente solo ocurre con ese dispositivo y no con otros, el problema no está asociado al servicio de Internet.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+
                 </div>
             </div>
         </div>
