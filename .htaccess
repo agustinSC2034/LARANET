@@ -1,0 +1,19 @@
+# ============================================
+# .htaccess - LARANET
+# Redirección de /autogestion a Phantom CRM
+# ============================================
+
+Options -Indexes
+
+RewriteEngine On
+
+# Redireccionar autogestion sin tilde
+RewriteRule ^autogestion/?$ http://38.159.225.250:5594/PHANTOM/Includes/CRM/CRM_APP/login.php [R=302,L,NE]
+
+# Redireccionar autogestión con tilde, por si alguien lo escribe así
+RewriteRule ^autogestión/?$ http://38.159.225.250:5594/PHANTOM/Includes/CRM/CRM_APP/login.php [R=302,L,NE]
+
+# ============================================
+# Reglas normales del sitio
+# Si tu web es estática, no necesitás nada más.
+# ============================================
