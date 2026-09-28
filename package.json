@@ -4,7 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check:mi-laranet": "node autogestion/check.cjs",
+    "dev:mi-laranet:php": "node autogestion/start-php.cjs",
+    "test:mi-laranet": "node autogestion/tests/run.cjs && node autogestion/tests/service-catalog.test.cjs && node autogestion/tests/wifi-input.test.cjs && node autogestion/tests/presentation.test.cjs && node autogestion/tests/central-chat.test.cjs && node autogestion/tests/port.test.cjs && node autogestion/tests/demo-state.test.cjs",
+    "dev:mi-laranet": "node autogestion/serve.cjs",
+    "build:mi-laranet": "tailwindcss -c autogestion/tailwind.config.cjs -i autogestion/styles.css -o autogestion/assets/app.css --minify",
+    "watch:mi-laranet": "npm run build:mi-laranet -- --watch",
+    "lint:mi-laranet": "node autogestion/lint.cjs",
+    "package:mi-laranet": "powershell -NoProfile -ExecutionPolicy Bypass -File autogestion/package.ps1"
   },
   "repository": {
     "type": "git",
@@ -20,5 +28,8 @@
   "homepage": "https://github.com/agustinSC2034/LARANET#readme",
   "dependencies": {
     "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.19"
   }
 }

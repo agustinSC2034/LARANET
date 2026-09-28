@@ -1,0 +1,58 @@
+<?php
+declare(strict_types=1);
+require_once __DIR__.'/Core.php';
+require_once __DIR__.'/Phantom.php';
+require_once __DIR__.'/Api.php';
+ini_set('display_errors','0'); ini_set('zend.exception_ignore_args','1');
+set_error_handler(static function() {throw new \MiLaranet\Failure('INTERNAL');});
+header('X-Content-Type-Options: nosniff'); header('Referrer-Policy: no-referrer');
+$measurementOrigin='';
+try { $speed=\MiLaranet\speedtestConfig(\MiLaranet\config()); if($speed!==null) $measurementOrigin=' '.$speed['origin']; } catch(\Throwable) {}
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://web.central.chat; worker-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'".$measurementOrigin."; object-src 'none'; frame-src https://web.central.chat; frame-ancestors 'none'; base-uri 'self'; form-action 'none'");
+header('Cache-Control: no-store');
+$path=parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+if(!is_string($path)) {http_response_code(400);exit;}
+$prefixed=$path==='/autogestion' || str_starts_with($path,'/autogestion/');
+$mount=$prefixed?'/autogestion':'';
+$routePath=$prefixed?substr($path,strlen('/autogestion')):$path;
+// The PHP built-in server keeps SCRIPT_NAME tied to router.php in some router
+// setups; use the normalized request path so local and physical api.php match.
+$physicalEntry=$routePath==='/api.php';
+$dispatchApi=static function(string $route): never {
+    try {
+        $c=\MiLaranet\config();$dir=\MiLaranet\privateDir();
+        $posting=\MiLaranet\phantomPostingConfig($c);
+        $ph=new \MiLaranet\Phantom($c,$dir,new \MiLaranet\CurlTransport($c),$posting===null?null:new \MiLaranet\PhantomCrmHttp($c,$posting,$dir));
+        $history=($c['mode']??'phantom')==='phantom'?new \MiLaranet\PhantomPaymentHistory($c):null;
+        \MiLaranet\api($c,$dir,$ph,$route,null,null,$history);
+    } catch(\Throwable $e) {\MiLaranet\fail($e);}
+};
+$redirectPaymentReturn=static function(string $mount): never {
+    $result=$_GET['result']??null; $attempt=$_GET['attempt']??null;
+    if(!is_string($result) || !is_string($attempt) || !in_array($result,['ok','error'],true) || !preg_match('/\A[a-f0-9]{32}\z/D',$attempt)) {http_response_code(400);exit;}
+    header('Location: '.$mount.'/#/facturas?attempt='.$attempt,true,303);exit;
+};
+if($physicalEntry) {
+    $route=$_GET['route']??null;
+    if(!is_string($route) || strlen($route)>64 || !preg_match('/\A[a-z][a-z0-9-]*\z/D',$route)) {http_response_code(400);exit;}
+    if($route==='payment-return') $redirectPaymentReturn($mount);
+    unset($_GET['route']);
+    $dispatchApi($route);
+}
+// Return is a navigation hint only. Discard all provider query fields, never mark payment here.
+if($_SERVER['REQUEST_METHOD']==='GET' && preg_match('~^/pago-(?:ok|error)/([a-f0-9]{32})$~D',$routePath,$returnMatch)) {
+    header('Location: '.$mount.'/#/facturas?attempt='.$returnMatch[1],true,303);exit;
+}
+if($path==='/autogestion') {header('Location: /autogestion/');exit;}
+if(str_starts_with($routePath,'/api/')) {
+    $dispatchApi(substr($routePath,strlen('/api/')));
+}
+if(!in_array($_SERVER['REQUEST_METHOD'],['GET','HEAD'],true)) {http_response_code(405);exit;}
+$relative=ltrim($routePath,'/');
+if($routePath==='/') $relative='index.html';
+if(!preg_match('~^(index\.html|js/[a-z-]+\.js|vendor/librespeed/speedtest_worker\.js|assets/[a-zA-Z0-9_.-]+\.(css|png|webp|svg|woff2))$~D',$relative)) {http_response_code(404);exit;}
+$file=__DIR__.'/../'.$relative;
+if(!is_file($file)) {http_response_code(404);exit;}
+$types=['html'=>'text/html','css'=>'text/css','js'=>'text/javascript','webp'=>'image/webp','png'=>'image/png','svg'=>'image/svg+xml','woff2'=>'font/woff2'];
+header('Content-Type: '.$types[pathinfo($file,PATHINFO_EXTENSION)].'; charset=utf-8');
+if($_SERVER['REQUEST_METHOD']!=='HEAD') readfile($file);

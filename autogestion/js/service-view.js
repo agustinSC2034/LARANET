@@ -1,0 +1,61 @@
+import { BRAND } from './brand.js';
+import {customer,runtime,planLabel,connectivityLabel} from './data.js';
+import {formatOfferPrice,offerCta,offerVisual,serviceDisplayState} from './service-catalog.js';
+import {status,icon,button,escapeHTML as e} from './components.js';
+
+const offerButton=(type,label)=>`<button type="button" class="button" data-action="chat" data-chat-topic="${type==='speed'?'upgrade-speed':type==='mesh'?'mesh':'additional-service'}">${label} ${icon('arrow-right')}</button>`;
+function offerMark(offer) {
+  const visual=offerVisual(offer);
+  if(visual.asset) return `<img class="offer-brand${offer.id==='pack_universal'?' offer-brand-monochrome':''}${offer.id==='pack_futbol'?' offer-brand-crest':''}" src="assets/${visual.asset}" width="60" height="38" alt="" aria-hidden="true">`;
+  return visual.symbol?icon(visual.symbol,'offer-symbol'):'';
+}
+export const SPEEDTEST_URL = /^https:\/\//.test(BRAND.speedtestUrl) ? BRAND.speedtestUrl : '';
+export const speedtestLink = (label = 'Abrir test de LARANET') => SPEEDTEST_URL
+  ? `<a class="button button-secondary" href="${e(SPEEDTEST_URL)}" target="_blank" rel="noopener noreferrer">${icon('activity')}${label}</a>`
+  : '<p class="field-hint">El test de velocidad todavía no está disponible.</p>';
+export function contractedProducts() {
+  const state=serviceDisplayState(runtime.servicePresentation);
+  if (!state.known) return '<p class="field-hint">El detalle de servicios adicionales no está disponible en este momento.</p>';
+  return `<ul class="contracted-products" aria-label="Tus servicios">${state.items.map(item=>`<li>${icon('check')}<span>${e(item.label)}${item.quantity?` × ${e(item.quantity)}`:''}</span></li>`).join('')}</ul>`;
+}
+export function contractedSection() {
+  const state=serviceDisplayState(runtime.servicePresentation);
+  if (state.known && state.items.length === 0) return '';
+  return `<section class="contracted-services-section" aria-labelledby="contracted-title">${state.known ? '<p class="eyebrow">Incluidos en tu cuenta</p><h2 id="contracted-title">Tus servicios</h2>' : '<h2 id="contracted-title">Servicios adicionales</h2>'}${contractedProducts()}</section>`;
+}
+function offersSection() {
+  const offers=runtime.commercialOffers;
+  if (!offers.length) return '';
+  return `<section class="service-offers" aria-labelledby="offers-title"><p class="eyebrow">Opciones para vos</p><h2 id="offers-title">Podés sumar</h2><div class="offer-options">${offers.map(o=>`<div class="commercial-option"><div><h3 class="offer-heading">${offerMark(o)}<span>${e(o.public_name)}</span></h3><p>${e(o.description)}</p><p class="offer-price">${e(formatOfferPrice(o))}</p>${o.type==='speed'?'<p class="offer-assistive">Podés solicitar una mejora de velocidad desde nuestro chat.</p>':''}</div>${offerButton(o.type,offerCta(o.type))}</div>`).join('')}</div></section>`;
+}
+export function servicePage() {
+  const detail=runtime.connectionDetails;
+  const state=detail?.connectionState ?? customer.connectionState;
+  const checked=detail?.checkedAt ? new Date(detail.checkedAt).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',hourCycle:'h23'}) : null;
+  return `<section class="service-overview" aria-label="Resumen de Mi servicio"><h1 tabindex="-1">Mi servicio</h1>
+  <div class="service-top-grid">
+    <section class="contract-summary" aria-labelledby="plan-title"><p class="eyebrow">Plan contratado</p>
+      <h2 id="plan-title">${e(planLabel(customer.plan))}</h2><div class="plan-bottom">${status(customer.serviceStatus)}</div>
+    </section>
+    <section class="connection-summary" aria-labelledby="connectivity-title">
+      <div class="section-heading"><h2 id="connectivity-title">Estado de tu conexión</h2><button class="billing-refresh" data-action="connection-refresh" aria-label="Actualizar estado de conexión" title="Actualizar estado" ${runtime.connectionRefreshing?'disabled aria-busy="true"':''}>${icon('refresh-cw',runtime.connectionRefreshing?'spinning':'')}</button></div>
+      <div class="connection-reading"><span class="connection-symbol">${icon(state==='offline'?'wifi-off':'wifi')}</span><div><p class="field-hint">Conexión a internet</p>${status(connectivityLabel(state))}</div></div>
+      <p class="field-hint" role="status">${runtime.connectionRefreshing?'Consultando estado…':runtime.connectionError?e(runtime.connectionError):`${checked?'Consultado a las '+e(checked)+'. ':''}Último estado informado. Puede demorar en actualizarse.`}</p>
+    </section>
+  </div></section>
+  ${contractedSection()}
+  <section class="service-tools" aria-labelledby="tools-title"><p class="eyebrow">A tu alcance</p><h2 id="tools-title">Herramientas</h2><div class="service-tools-grid">
+  <section class="service-wifi" aria-labelledby="wifi-title"><div><span class="eyebrow">Herramientas</span><h2 id="wifi-title">Configurá tu Wi-Fi</h2><p class="muted">Cambiá el nombre y la contraseña de tus redes.</p></div><div class="wifi-actions">${button('Configurar Wi-Fi','wifi-settings',{secondary:true,iconName:'wifi'})}</div></section>
+  ${speedtestSection()}
+  </div></section>
+  ${offersSection()}
+  `;
+}
+function speedtestSection() {
+  return `<section id="service-speedtest" class="service-speedtest" aria-labelledby="speed-title" tabindex="-1">
+    <div class="speed-intro"><span class="eyebrow">Desde este dispositivo</span><h2 id="speed-title">Probá tu conexión</h2><p class="muted">Medí la velocidad de tu conexión con el test de LARANET.</p></div>
+    <div class="speed-external">${speedtestLink()}</div>
+
+      <details class="speed-guidance"><summary>Para una buena medición</summary><ol><li><strong>Mejor por cable.</strong> Usá Cat 5e o superior y puertos Gigabit para planes de hasta 1.000 Mbps. Un puerto de 100 Mbps limita la prueba.</li><li><strong>Por Wi-Fi, elegí 5 GHz.</strong> Acercate al router. La red de 2,4 GHz suele tener más interferencias y menor velocidad.</li><li><strong>Dale espacio a la prueba.</strong> Pausá descargas, streaming y VPN.</li></ol></details>
+  </section>`;
+}

@@ -1,0 +1,139 @@
+<?php
+declare(strict_types=1);
+namespace MiLaranet;
+
+final class Failure extends \RuntimeException {
+    // Upstream status is diagnostic metadata, never the status of our public API.
+    public function __construct(public string $kind, public int $http = 503, public ?int $upstreamHttp = null,
+        public ?string $responseFormat = null, public ?array $safeDiagnostic = null) { parent::__construct($kind); }
+}
+final class InspectionFailure extends \RuntimeException {
+    public function __construct(public string $stage, public string $safeCode, \Throwable $previous) {
+        parent::__construct($safeCode,0,$previous);
+    }
+}
+function config(): array {
+    $c = ['mode'=>PHP_SAPI==='cli-server' || PHP_SAPI==='cli'?'demo':'phantom', 'login_users'=>[], 'lab_users'=>[], 'allowed_idas'=>[], 'idle_seconds'=>900, 'max_seconds'=>28800,
+        'timeout_seconds'=>10, 'connect_timeout_seconds'=>4, 'customer_path'=>[], 'profile_fields'=>[],
+        'balance_path'=>null, 'ca_file'=>null,'phantom_auth_mode'=>'get-query-lab','customer_id_field'=>null];
+    $path = getenv('MI_LARANET_CONFIG');
+    if ($path) {
+        $real = realpath($path);
+        if (!$real || insideRepo($real)) throw new Failure('CONFIGURATION');
+        ob_start();
+        try {$loaded = require $real;} finally {ob_end_clean();}
+        if (!is_array($loaded)) throw new Failure('CONFIGURATION');
+        $c = array_replace($c, $loaded);
+    }
+    if (!in_array($c['mode'], ['demo','phantom'], true)) throw new Failure('CONFIGURATION');
+    if($c['phantom_auth_mode']!=='get-query-lab' || !in_array($c['customer_id_field'],[null,'ID','IDAx'],true)
+        || !validLoginUsers($c['login_users']) || !validLoginUsers($c['lab_users']) || !is_array($c['profile_fields'])) throw new Failure('CONFIGURATION');
+    foreach (['idle_seconds','max_seconds','timeout_seconds','connect_timeout_seconds'] as $key) {
+        if (!is_int($c[$key]) || $c[$key] < 1) throw new Failure('CONFIGURATION');
+    }
+    if ($c['timeout_seconds'] > 30 || $c['connect_timeout_seconds'] > 10) throw new Failure('CONFIGURATION');
+    if ($c['mode'] === 'phantom') {
+        $url = parse_url($c['phantom_url'] ?? '');
+        if (($url['scheme'] ?? '') !== 'https' || empty($url['host']) || isset($url['user']) || isset($url['pass']) || isset($url['query']) || isset($url['fragment'])
+            || !is_string($c['api_user'] ?? null) || $c['api_user'] === '' || !is_string($c['api_pass'] ?? null) || $c['api_pass'] === '') throw new Failure('CONFIGURATION');
+    }
+    return $c;
+}
+function insideRepo(string $path): bool {
+    $root = str_replace('\\','/', (string)realpath(__DIR__.'/../..'));
+    $path = str_replace('\\','/', $path);
+    return strcasecmp($path, $root) === 0 || str_starts_with(strtolower($path), strtolower($root).'/');
+}
+function privateDir(): string {
+    $path = getenv('MI_LARANET_RUNTIME') ?: sys_get_temp_dir().'/mi-laranet-runtime';
+    if (!is_dir($path) && !mkdir($path, 0700, true)) throw new Failure('PRIVATE_STORAGE');
+    $real = realpath($path);
+    if (!$real || insideRepo($real) || !is_writable($real)) throw new Failure('PRIVATE_STORAGE');
+    return $real;
+}
+function locked(string $path, callable $callback): mixed {
+    $f = fopen($path, 'c+');
+    if (!$f || !flock($f, LOCK_EX)) throw new Failure('PRIVATE_STORAGE');
+    @chmod($path, 0600);
+    try { return $callback($f); } finally { flock($f, LOCK_UN); fclose($f); }
+}
+function writeFileHandle($f, array $value): void {
+    rewind($f); ftruncate($f, 0); fwrite($f, json_encode($value, JSON_THROW_ON_ERROR)); fflush($f);
+}
+function rateLimitKeys(string $user, string $ip, ?int $candidate): array {
+    return [['ip:'.$ip,30], ['user:'.($candidate === null ? $user : 'ida:'.$candidate),5]];
+}
+function rateLimitBegin(string $dir, string $user, string $ip, ?int $candidate): void {
+    locked($dir.'/attempts.json', function($f) use ($user,$ip,$candidate) {
+        $state = json_decode(stream_get_contents($f), true) ?: ['salt'=>bin2hex(random_bytes(32)), 'buckets'=>[]];
+        $now = time();
+        foreach ($state['buckets'] as $k=>$v) if ($v['until'] <= $now) unset($state['buckets'][$k]);
+        foreach (rateLimitKeys($user,$ip,$candidate) as [$key,$max]) {
+            $hash = hash_hmac('sha256',$key,$state['salt']);
+            $v = $state['buckets'][$hash] ?? ['count'=>0,'until'=>$now+900];
+            if ($v['count'] >= $max) throw new Failure('RATE_LIMIT',429);
+            $v['count']++; $state['buckets'][$hash]=$v;
+        }
+        writeFileHandle($f,$state);
+    });
+}
+function rateLimitRelease(string $dir, string $user, string $ip, ?int $candidate): void {
+    locked($dir.'/attempts.json', function($f) use ($user,$ip,$candidate) {
+        $state = json_decode(stream_get_contents($f), true) ?: ['salt'=>bin2hex(random_bytes(32)), 'buckets'=>[]];
+        foreach (rateLimitKeys($user,$ip,$candidate) as [$key]) {
+            $hash = hash_hmac('sha256',$key,$state['salt']);
+            if(!isset($state['buckets'][$hash])) continue;
+            $state['buckets'][$hash]['count']--;
+            if($state['buckets'][$hash]['count']<=0) unset($state['buckets'][$hash]);
+        }
+        writeFileHandle($f,$state);
+    });
+}
+function validLoginUsers(mixed $users): bool {
+    if(!is_array($users) || count($users)>100) return false;
+    foreach($users as $user=>$ida) {
+        if(!is_string($user) || $user==='' || strlen($user)>128 || preg_match('/[\x00-\x1f\x7f]/',$user)
+            || !is_int($ida) || $ida<1 || $ida>9999999999) return false;
+    }
+    return true;
+}
+function resolveUser(string $user, array $c): ?int {
+    // Numeric portal users are contract candidates, never authorization. The
+    // exact Phantom credentials must still match before their server-side
+    // associated contracts are discovered and stored in the session.
+    $candidate = $c['login_users'][$user] ?? $c['lab_users'][$user] ?? null;
+    if ($candidate === null && preg_match('/^[0-9]{1,10}$/D', $user)) $candidate = (int)$user;
+    return is_int($candidate) && $candidate>=1 && $candidate<=9999999999 ? $candidate : null;
+}
+function atPath(array $value, ?array $path): mixed {
+    if ($path === null) return null;
+    foreach ($path as $key) {
+        if (!is_array($value) || !array_key_exists($key,$value)) return null;
+        $value = $value[$key];
+    }
+    return $value;
+}
+function publicField(array $raw, mixed $mapping): ?string {
+    if ($mapping === null) return null;
+    // Only explicitly configured, scalar presentation fields. Never credentials,
+    // billing IDs of other contracts or linked customer records.
+    $paths = isset($mapping['join']) ? $mapping['join'] : [$mapping];
+    $parts=[];
+    foreach($paths as $path) {
+        $publicKeys=['Nombre','Apellido','Razon_Social','Direccion','Dir_Numero','Dir_Lote','Dir_Manzana','Dir_Referencia','Barrio','Ciudad','Telefono','Movil','Email','Producto_Internet'];
+        if(!is_array($path) || count($path)!==1 || !in_array($path[0]??null,$publicKeys,true)) throw new Failure('PROFILE_MAPPING');
+        $part=textValue(atPath($raw,$path)); if($part!==null) $parts[]=$part;
+    }
+    return $parts ? implode(' ', $parts) : null;
+}
+function textValue(mixed $v): ?string { return is_string($v) && trim($v) !== '' ? mbSafeCut($v) : null; }
+function mbSafeCut(string $v): string { return strlen($v) <= 1000 ? $v : ''; }
+function amount(mixed $v): ?float {
+    if (!(is_int($v) || is_float($v) || (is_string($v) && preg_match('/^-?\d+(?:\.\d{1,2})?$/D',$v)))) return null;
+    $n=(float)$v; return is_finite($n) && abs($n)<1e12 ? $n : null;
+}
+function dateValue(mixed $v): ?string {
+    if (!is_string($v) || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/D',$v)) return null;
+    $d=\DateTimeImmutable::createFromFormat('!Y-m-d',$v);
+    return $d && $d->format('Y-m-d')===$v ? $d->format('d/m/Y') : null;
+}

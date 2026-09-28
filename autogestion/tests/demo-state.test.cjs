@@ -1,0 +1,26 @@
+const assert = require('node:assert/strict');
+(async () => {
+  const data = await import('../js/data.js');
+  await data.initialize('demo');
+  assert.equal(data.runtime.selectedServiceId, '1001');
+  assert.equal(data.invoices.length, 3);
+  data.runtime.paymentItems = [{attempt_id:'example'}];
+  data.runtime.connectionDetails = {example:true};
+  assert.equal(await data.selectDemoService('1002'), true);
+  assert.equal(data.debt, 0);
+  assert.equal(data.invoices.length, 0);
+  assert.equal(data.ticket, null);
+  assert.equal(data.customer.connectionState, null);
+  assert.deepEqual(data.runtime.paymentItems, []);
+  assert.equal(data.runtime.connectionDetails, null);
+  assert.equal(await data.selectDemoService('unowned'), false);
+  assert.equal(data.runtime.selectedServiceId, '1002');
+  await data.selectDemoService('1001');
+  assert.equal(data.debt, 12500);
+  assert.equal(data.invoices.length, 3);
+  await data.initialize('phantom');
+  assert.equal(await data.selectDemoService('1001'), false);
+  assert.equal(data.customer.name, null);
+  assert.equal(data.invoices.length, 0);
+  console.log('Demo contract isolation: 16 assertions');
+})().catch(error => { console.error(error); process.exitCode = 1; });
