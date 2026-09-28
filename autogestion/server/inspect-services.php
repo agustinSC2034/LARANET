@@ -1,0 +1,34 @@
+<?php
+declare(strict_types=1);
+if(PHP_SAPI!=='cli') {http_response_code(404);exit;}
+ini_set('display_errors','0');ini_set('log_errors','0');ini_set('zend.exception_ignore_args','1');
+require __DIR__.'/Core.php';require __DIR__.'/Phantom.php';require __DIR__.'/Services.php';require __DIR__.'/Inspector.php';
+require_once __DIR__.'/ServiceDiagnostics.php';
+// Explicit operator-selected account only; exact document lookup stays internal and prints metadata only.
+if(count($argv)>2) exit(1);
+$input=$argv[1]??null;
+if($input===null) {echo "Número del contrato inicial de la cuenta de prueba: ";$input=trim((string)fgets(STDIN));}
+set_error_handler(static function(){throw new \MiLaranet\Failure('INSPECTOR_RUNTIME');});
+try {
+    if(!preg_match('/^[1-9][0-9]{0,9}$/D',$input)) throw new \MiLaranet\Failure('INSPECTOR_ARGUMENTS');
+    $c=\MiLaranet\config();if($c['mode']!=='phantom' || $c['customer_id_field']!=='ID') throw new \MiLaranet\Failure('CONFIGURATION');
+    $c['service_login_idas']=[(int)$input];
+    $ph=new \MiLaranet\Phantom($c,\MiLaranet\privateDir(),new \MiLaranet\CurlTransport($c));
+    $diagnostics=['failure_stage'=>null,'failure_code'=>null];$rootRecord=null;$documentLookup=null;$documentSkipped=false;
+    $result=\MiLaranet\discoverServices($ph,(int)$input,static function($stage,$data) use (&$diagnostics,&$rootRecord,&$documentLookup,&$documentSkipped) {
+        if($stage==='root') {$rootRecord=$data;$diagnostics+=\MiLaranet\serviceRootDiagnostics($data);}
+        elseif($stage==='document_lookup') $documentLookup=$data;
+        elseif($stage==='document_skipped') $documentSkipped=true;
+        else {$diagnostics['failure_stage']=$stage;$diagnostics['failure_code']=$data['code'];}
+    });
+    $report=['services_found'=>count($result['services']),'association_unavailable'=>$result['servicesUnavailable'],'services'=>[]];
+    foreach($result['services'] as $s) $report['services'][]=['ID_present'=>true,'address_present'=>$s['address']!==null,'plan_present'=>$s['plan']!==null];
+    $documents=\MiLaranet\recordDocuments($rootRecord);$source=$documents['Cuit']??$documents['CUIT']??$documents['Cuit_Cuil']??$documents['Documento']??$documents['DNI']??$documents['dni']??null;
+    $documentAttempted=$source!==null && !$documentSkipped;
+    $report['document_lookup']=['source_available'=>$source!==null,'source_kind'=>\MiLaranet\documentKind($source),'performed'=>$documentAttempted,'available'=>$documentLookup!==null,'skipped_for_direct_association'=>$documentSkipped];
+    if($documentLookup!==null) $report['document_lookup']=array_merge($report['document_lookup'],$documentLookup);
+    elseif($documentAttempted && $diagnostics['failure_stage']==='document_search') $report['document_lookup']['failure_code']=$diagnostics['failure_code'];
+    $report['diagnostics']=$diagnostics;
+    echo json_encode($report,JSON_PRETTY_PRINT|JSON_THROW_ON_ERROR).PHP_EOL;
+} catch(\Throwable $e) {exit(\MiLaranet\writeInspectorFailure('servicios',$e));}
+finally {unset($source,$documents,$rootRecord,$documentLookup,$documentSkipped);}

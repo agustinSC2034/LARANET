@@ -1,1 +1,11 @@
 node_modules/
+
+# Private configuration and generated local artifacts
+.env
+.env.*
+!.env.example
+**/config.local.php
+autogestion/server/config.php
+mi-laranet-private/
+.runtime/
+.release/
