@@ -36,7 +36,8 @@ for (const file of ['index.html', 'ayuda/index.html']) {
   assert.match(html, /<central-chat hide\b/);
   assert.ok(html.indexOf('id="site-chat-close"') > html.indexOf('id="site-chat-panel"'));
 }
-assert.match(siteCss, /#site-chat-panel,\s*#site-chat-launcher\s*\{\s*display:\s*none\s*!important/);
+assert.match(siteCss, /\.site-whatsapp-launcher\s*\{\s*display:\s*none\s*!important/);
+assert.doesNotMatch(siteCss, /#site-chat-panel,\s*#site-chat-launcher\s*\{\s*display:\s*none/);
 assert.match(siteCss, /#1e3a8a/);
 assert.match(siteCss, /site-chat-close\s*\{[^}]*z-index:\s*10[^}]*width:\s*44px;[^}]*height:\s*44px/s);
 assert.match(siteCss, /site-chat-panel\s*\{\s*inset:\s*0;\s*width:\s*100vw;\s*height:\s*100dvh/s);
@@ -104,4 +105,4 @@ launcher.dispatch('click');
 assert.equal(panel.hidden, false, 'se puede volver a abrir');
 defined();
 
-console.log('Central público: estructura, migración y controles OK');
+console.log('Central público: estructura, botón visible y controles OK');

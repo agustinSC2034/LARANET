@@ -1,6 +1,5 @@
-/* MIGRACIÓN HASTA EL 01/10: Central cargado pero invisible en la web pública. */
-#site-chat-panel,
-#site-chat-launcher { display: none !important; }
+/* Central reemplaza el botón flotante de WhatsApp en la web pública. */
+.site-whatsapp-launcher { display: none !important; }
 
 .site-chat-launcher {
   position: fixed;
