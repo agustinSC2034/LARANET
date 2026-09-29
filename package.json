@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:central-public": "node tests/central-public.test.cjs",
     "check:mi-laranet": "node autogestion/check.cjs",
     "dev:mi-laranet:php": "node autogestion/start-php.cjs",
     "test:mi-laranet": "node autogestion/tests/run.cjs && node autogestion/tests/service-catalog.test.cjs && node autogestion/tests/wifi-input.test.cjs && node autogestion/tests/presentation.test.cjs && node autogestion/tests/central-chat.test.cjs && node autogestion/tests/port.test.cjs && node autogestion/tests/demo-state.test.cjs",

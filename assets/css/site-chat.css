@@ -1,0 +1,68 @@
+/* MIGRACIÓN HASTA EL 01/10: Central cargado pero invisible en la web pública. */
+#site-chat-panel,
+#site-chat-launcher { display: none !important; }
+
+.site-chat-launcher {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1101;
+  display: inline-flex;
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: #1e3a8a;
+  color: #fff;
+  box-shadow: 0 12px 32px #0c243d38;
+  cursor: pointer;
+  transition: transform .18s, background .18s;
+}
+.site-chat-launcher:hover { background: #1e40af; transform: translateY(-2px); }
+.site-chat-launcher[hidden] { display: none !important; }
+.site-chat-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 88px;
+  z-index: 1100;
+  width: min(420px, calc(100vw - 40px));
+  height: min(680px, calc(100dvh - 112px));
+  overflow: hidden;
+  border: 1px solid #dbe4ee;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 24px 64px #102a3d3d;
+}
+.site-chat-panel[hidden] { display: none !important; }
+.site-chat-panel central-chat { display: block; width: 100%; height: 100%; }
+.site-chat-close {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right));
+  z-index: 10;
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #1e3a8a;
+  box-shadow: 0 2px 12px #102a3d40;
+  font: 32px/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+.site-chat-close:hover { background: #eff6ff; }
+.site-chat-launcher:focus-visible,
+.site-chat-close:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+body.site-chat-open { overflow: hidden; }
+@media (max-width: 640px) {
+  .site-chat-panel { inset: 0; width: 100vw; height: 100dvh; border: 0; border-radius: 0; }
+  .site-chat-launcher { right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-chat-launcher { transition: none; }
+}

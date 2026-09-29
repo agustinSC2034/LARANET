@@ -1,0 +1,18 @@
+.attention-conversation {
+  margin: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: #1e3a8a;
+  font: 15px/1.5 Inter, system-ui, sans-serif;
+}
+.attention-conversation * { box-sizing: border-box; }
+.conversation-main { width: 100%; margin: 0; padding: 0; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.conversation-container { position: relative; flex: 1; min-height: 0; overflow: hidden; background: #fff; }
+.conversation-container central-chat { display: block; width: 100%; height: 100%; }
+.attention-conversation a { color: #1e3a8a; }
+.attention-conversation a:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+@media (max-width: 640px) {
+  .conversation-main { padding-bottom: env(safe-area-inset-bottom); }
+}
